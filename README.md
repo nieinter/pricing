@@ -1,5 +1,5 @@
 # Pricing
-### Desktop application that helps create products pricing in .docx file. To run application four modules must be installed: [tkinter](https://docs.python.org/3/library/tkinter.html), [tkcalendar](https://tkcalendar.readthedocs.io/en/stable/), [python-docx](https://python-docx.readthedocs.io/en/latest/) and [ctypes](https://docs.python.org/3/library/ctypes.html).
+### Desktop application that helps create products pricing in .docx file. To run application four modules must be installed (+ tempalte.docx placed in same folder as program): [tkinter](https://docs.python.org/3/library/tkinter.html), [tkcalendar](https://tkcalendar.readthedocs.io/en/stable/), [python-docx](https://python-docx.readthedocs.io/en/latest/) and [ctypes](https://docs.python.org/3/library/ctypes.html).
 
 ### Layout
 ![Pricing](https://github.com/nieinter/images/blob/main/pricing_main.png)
