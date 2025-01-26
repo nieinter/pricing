@@ -25,3 +25,9 @@
 ### - creating .docx file from template.docx
 
 ![QuizMeter](https://github.com/nieinter/images/blob/main/pricing_word.png)
+
+# Used Python modules:
+- [tkinter](https://docs.python.org/3/library/tkinter.html)
+- [tkcalendar](https://tkcalendar.readthedocs.io/en/stable/)
+- [python-docx](https://python-docx.readthedocs.io/en/latest/)
+- [ctypes](https://docs.python.org/3/library/ctypes.html)
