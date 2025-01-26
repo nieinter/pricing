@@ -12,6 +12,7 @@ from os import getcwd
 windll.shcore.SetProcessDpiAwareness(1)
 
 
+# formating date
 def date_format(date):
     for i, w in enumerate(date):
         date[i] = w.strip("0")
@@ -27,42 +28,38 @@ def date_format(date):
     tmp = str(date[2])
     date[2] = "20" + tmp
 
-    date_str = ""
-    date_str += date[1]
-    date_str += "."
-    date_str += date[0]
-    date_str += "."
-    date_str += date[2]
-
-    return date_str
+    return f"{date[1]}.{date[0]}.{date[2]}"
 
 
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
-
+        
+        # colors
         self.bg_color = "#2D4356"
         self.widget_color = "#A76F6F"
         self.text_color = "#EAB2A0"
         self.insert_text_color = "#20262E"
 
+        # calculation app placement on screen
         s_w = self.winfo_screenwidth()
         s_h = self.winfo_screenheight()
-
         x = round((s_w / 2) - 700)
         y = round((s_h / 2) - 350)
 
+        # window parameters
         self.geometry("1400x700" + "+" + str(x) + "+" + str(y))
         self.title("WYCENA")
         self.config(background=self.bg_color)
-        self.iconbitmap("logo_netbuild.ico")
         self.resizable(False, False)
-
+        
+        # variable initialization
         self.all_data = []
         self.date = None
         self.editing = False
         self.curr_index = None
-
+        
+        # widgets initialization
         label_entry_name = tk.Label(self,
                                     text="Nazwa",
                                     background=self.bg_color,
@@ -202,11 +199,13 @@ class App(tk.Tk):
                                 borderwidth=0,
                                 command=self.toplevel_info_show
                                 )
-
+        
+        # action binding
         self.entry_name.bind("<Return>", self.data_validation)
         self.entry_amount.bind("<Return>", self.data_validation)
         self.entry_price.bind("<Return>", self.data_validation)
-
+        
+        # layout
         label_entry_name.place(x=30, y=10)
         self.entry_name.place(x=30, y=50)
         label_entry_amount.place(x=1090, y=10)
@@ -225,9 +224,10 @@ class App(tk.Tk):
         button_date.place(x=10, y=250)
         button_info.place(x=1360, y=0)
 
+        # toplevel (calendar) displaying
         self.toplevel = tk.Toplevel(self)
         self.toplevel.title("DATA WAŻNOŚCI")
-
+        
         tl_x = round((s_w / 2) - 200)
         tl_y = round((s_h / 2) - 250)
 
@@ -235,7 +235,8 @@ class App(tk.Tk):
         self.toplevel.resizable(False, False)
         self.toplevel.config(background="#7512e6")
         self.toplevel.overrideredirect(True)
-
+        
+        # toplevel widgets initialization
         tl_label_title = tk.Label(self.toplevel,
                                   text="ZAZNACZ DATĘ WAŻNOŚCI:",
                                   background="#7512e6",
@@ -267,13 +268,15 @@ class App(tk.Tk):
                                           font=("Consolas", 12),
                                           command=self.toplevel_hide
                                           )
-
+        # layout
         tl_label_title.pack(side="top", pady=15)
         self.tl_calendar.pack(side="top", padx=15, fill="both", expand=True)
         tl_button_submit_time.pack(side="bottom", pady=10)
 
+        # hiding toplevel
         self.toplevel.withdraw()
-
+        
+        # toplevel (information) displaying
         self.toplevel_info = tk.Toplevel(self)
         self.toplevel_info.title("DATA WAŻNOŚCI")
 
@@ -284,7 +287,8 @@ class App(tk.Tk):
         self.toplevel_info.resizable(False, False)
         self.toplevel_info.config(background="#7512e6")
         self.toplevel_info.overrideredirect(True)
-
+        
+        # toplevel widgets initialization
         tli_sep = ttk.Separator(self.toplevel_info,
                                 orient="horizontal"
                                 )
@@ -415,7 +419,8 @@ class App(tk.Tk):
         tli_sep_delete = ttk.Separator(self.toplevel_info,
                                        orient="horizontal"
                                        )
-
+        
+        # layout
         tli_sep.place(x=0, y=0, width=400)
         tli_button_close.place(x=360, y=0)
         tli_sep_close.place(x=0, y=35, width=400)
@@ -440,9 +445,11 @@ class App(tk.Tk):
         tli_label_delete.place(x=60, y=410)
         tli_sep_delete.place(x=0, y=498, width=400)
 
+        # hiding toplevel
         self.toplevel_info.withdraw()
         self.deiconify()
-
+    
+    # validates data from entries
     def data_validation(self, *args, **kwargs):
         try:
             name = str(self.entry_name.get())
@@ -460,11 +467,13 @@ class App(tk.Tk):
         except:
             messagebox.showerror("BŁĄD", "NIEZNANY BŁĄD")
 
+    # clears entries
     def clear_entry(self):
         self.entry_name.delete(0, END)
         self.entry_amount.delete(0, END)
         self.entry_price.delete(0, END)
 
+    # adds product to listbox
     def add(self, name, amount, price):
         if not self.editing:
             arr = [name, amount, price]
@@ -483,21 +492,26 @@ class App(tk.Tk):
                                             + "     " + str(self.all_data[self.curr_index][2]))
             self.listbox_of_all_data.delete(self.curr_index + 1)
         self.editing = False
-
+    
+    # shows toplevel (calendar)
     def toplevel_show(self, *args, **kwargs):
         self.toplevel.deiconify()
 
+    # hides toplevel (calendar)
     def toplevel_hide(self, *args, **kwargs):
         self.toplevel.withdraw()
         self.submit_date()
 
+    # shows toplevel (information)
     def toplevel_info_show(self, *args, **kwargs):
         self.toplevel_info.deiconify()
-
+    
+    # date getting
     def submit_date(self, *args, **kwargs):
         self.date = self.tl_calendar.get_date()
         self.date = self.date.split("/")
 
+    # deletes chosen product from listbox
     def delete(self, *args, **kwargs):
         index = self.listbox_of_all_data.curselection()
         if index == ():
@@ -506,6 +520,7 @@ class App(tk.Tk):
             del self.all_data[index[0]]
             self.listbox_of_all_data.delete(index[0])
 
+    # moves product up on listbox
     def up(self, *args, **kwargs):
         index = self.listbox_of_all_data.curselection()
 
@@ -529,7 +544,8 @@ class App(tk.Tk):
 
             else:
                 messagebox.showinfo("INFO", "WPIS JEST JUŻ NA SAMEJ GÓRZE")
-
+    
+    # moves product down on listbox
     def down(self, *args, **kwargs):
         index = self.listbox_of_all_data.curselection()
 
@@ -553,7 +569,8 @@ class App(tk.Tk):
 
             else:
                 messagebox.showinfo("INFO", "WPIS JEST JUŻ NA SAMYM DOLE")
-
+    
+    # edits selected on listbox product
     def edit(self, *args, **kwargs):
         self.editing = True
         self.curr_index = self.listbox_of_all_data.curselection()
@@ -572,7 +589,8 @@ class App(tk.Tk):
             self.entry_name.insert(0, self.all_data[self.curr_index][0])
             self.entry_amount.insert(0, self.all_data[self.curr_index][1])
             self.entry_price.insert(0, self.all_data[self.curr_index][2])
-
+    
+    # creates .docx file
     def print_docx(self, *args, **kwargs):
 
         if self.all_data:
