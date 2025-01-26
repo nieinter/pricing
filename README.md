@@ -31,3 +31,5 @@
 - [tkcalendar](https://tkcalendar.readthedocs.io/en/stable/)
 - [python-docx](https://python-docx.readthedocs.io/en/latest/)
 - [ctypes](https://docs.python.org/3/library/ctypes.html)
+- [datetime](https://docs.python.org/3/library/datetime.html)
+- [os](https://docs.python.org/3/library/os.html)
